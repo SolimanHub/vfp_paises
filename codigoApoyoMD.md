@@ -14,10 +14,11 @@ ENDFUNC
 
 ## init
 ```
-PUBLIC cn, lcSQL
+PUBLIC cn, lcSQL, EDITAR
 
 SET PROCEDURE TO C:\Users\rx\Documents\vfp\paises\mis_funciones.prg
 &&SET STEP ON
+EDITAR = 0
 
 cn = ConectarBD()
 THIS.MTD_CARGAR_CBX_PAISES() && ESTE METODO ES GENERADO POR MI
@@ -51,6 +52,10 @@ ENDIF
 
 ```
 THISFORM.QUERYUNLOAD()
+```
+# BTN_P_EDIT
+```
+EDITAR = 1
 ```
 
 # BTN_GUARDAR_PAIS

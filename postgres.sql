@@ -51,6 +51,38 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+# Funcion update
+
+CREATE OR REPLACE FUNCTION actualizar_tbl_paises(p_id INTEGER, p_nuevo_pais VARCHAR)
+RETURNS INTEGER AS $$
+DECLARE
+    v_existe_nombre INTEGER;
+BEGIN
+    -- Verificar si existe un país con el mismo nombre
+    SELECT COUNT(*)
+    INTO v_existe_nombre
+    FROM tbl_paises
+    WHERE pais = p_nuevo_pais;
+
+    -- Si ya existe un país con ese nombre, retornar 2
+    IF v_existe_nombre > 0 THEN
+        RETURN 1;
+    END IF;
+
+    -- Verificar si existe un país con el ID proporcionado
+    IF EXISTS (SELECT 1 FROM tbl_paises WHERE id = p_id) THEN
+        -- Actualizar el nombre del país
+        UPDATE tbl_paises
+        SET pais = p_nuevo_pais
+        WHERE id = p_id;
+        RETURN 0;
+    ELSE
+        -- Si no se encuentra el país, retornar 0
+        RETURN 1;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
 # Uso de las Funciones
 
 SELECT insertar_en_tbl_paises('Nombre del País');
